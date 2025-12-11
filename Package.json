@@ -1,0 +1,11 @@
+{
+  "name": "christmas-surprise",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Merry Christmas surprise game by Rodgers",
+  "scripts": {
+    "start": "serve ."
+  },
+  "author": "Rodgers",
+  "license": "MIT"
+}
