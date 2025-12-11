@@ -5,328 +5,88 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Merry Christmas — Surprise Gift</title>
 <link rel="icon" href="data:,">
-
 <style>
   :root{
-    --bg:#071033;
-    --card:#0f1830;
-    --red:#c62828;
-    --green:#2e7d32;
-    --gold:#b8860b;
-    --glow: 0 0 14px rgba(255,200,100,0.12), 0 0 30px rgba(255,150,50,0.06);
+    --bg-1:#04102a; --bg-2:#071033;
+    --red:#c62828; --green:#2e7d32; --gold:#b8860b;
+    --glow: 0 0 14px rgba(255,200,100,0.08);
   }
-
   *{box-sizing:border-box}
   body{
-    margin:0;
-    font-family:Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg, #04102a 0%, #071033 60%, #081028 100%);
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+    margin:0; font-family:Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    background: linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 60%);
+    color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center;
   }
 
-  /* Snow canvas sits at back */
+  /* Snow canvas (hidden until open) */
   #snow {
-    position:fixed;
-    top:0;left:0;
-    width:100vw;height:100vh;
-    pointer-events:none;
-    z-index:0;
-    opacity:0; /* starts hidden until box opens */
-    transition: opacity 800ms ease;
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0; transition:opacity .8s ease;
   }
 
-  main{
-    width:100%;
-    max-width:980px;
-    padding:28px 20px 80px;
-    z-index:1;
-  }
+  main{ width:100%; max-width:980px; padding:28px 20px 90px; z-index:1; }
 
-  header.hero{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    gap:14px;
-    padding:48px 10px;
-    margin-top:18px;
-  }
-  .hero h1{
-    font-size: clamp(28px, 5vw, 52px);
-    margin:0;
-    letter-spacing:1px;
-    text-shadow: 0 8px 36px rgba(0,0,0,0.6), 0 0 30px rgba(255,100,60,0.06);
-  }
-  .hero p.lead{
-    margin:0;
-    font-size:clamp(14px, 2.2vw, 18px);
-    color: #f0f3ff;
-    opacity:0.95;
-  }
+  header.hero{ text-align:center; margin-top:18px; padding:26px 8px 6px; }
+  header.hero h1{ font-size:clamp(28px,5vw,48px); margin:0; }
+  header.hero p.lead{ margin:10px 0 0; font-size:clamp(14px,2.2vw,18px); color:#e8eefc; opacity:0.95; }
 
-  /* instruction text */
-  .hero p.small{
-    margin:0;
-    margin-top:8px;
-    color:#dfe7ff;
-    opacity:0.8;
-  }
-
-  /* Boxes layout */
-  .boxes{
-    display:flex;
-    justify-content:center;
-    gap:18px;
-    margin-top:26px;
-    flex-wrap:wrap;
-  }
-
-  .box-wrap{
-    width:110px;
-    height:140px;
-    perspective:900px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-  }
-
+  /* Boxes */
+  .boxes{ display:flex; justify-content:center; gap:18px; margin-top:36px; flex-wrap:wrap; }
+  .box-wrap{ width:110px; height:140px; perspective:900px; display:flex; align-items:flex-end; justify-content:center; }
   .box{
-    width:100px;
-    height:100px;
-    border-radius:12px;
-    position:relative;
-    transform-origin:50% 80%;
-    transition: transform 360ms cubic-bezier(.2,.8,.2,1), box-shadow 260ms;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.45), var(--glow);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:visible;
+    width:100px; height:100px; border-radius:12px; position:relative; transform-origin:50% 80%;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .25s; box-shadow: 0 10px 30px rgba(0,0,0,0.45), var(--glow);
+    display:flex; align-items:center; justify-content:center; overflow:visible;
   }
-
-  /* colors */
   .box.box1{ background: linear-gradient(180deg,var(--red), #a31f1f); }
   .box.box2{ background: linear-gradient(180deg,var(--green), #225e23); }
   .box.box3{ background: linear-gradient(180deg,var(--gold), #8a6f02); }
   .box.box4{ background: linear-gradient(180deg,var(--red), #a31f1f); }
   .box.box5{ background: linear-gradient(180deg,var(--green), #225e23); }
 
-  /* ribbon (vertical) */
-  .box::before{
-    content:"";
-    position:absolute;
-    left:48%;
-    top:0;
-    width:8px;height:100%;
-    background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(255,255,255,0.06));
-    transform:translateX(-50%);
-    border-radius:4px;
-    box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
-  }
+  .box::before{ content:""; position:absolute; left:50%; top:0; width:8px; height:100%; transform:translateX(-50%); border-radius:4px; background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(255,255,255,0.04)); }
+  .box::after{ content:""; position:absolute; top:40%; left:0; width:100%; height:12px; border-radius:8px; background:linear-gradient(90deg, rgba(0,0,0,0.06), rgba(255,255,255,0.04)); transform:translateY(-50%); }
 
-  /* ribbon (horizontal) */
-  .box::after{
-    content:"";
-    position:absolute;
-    top:40%;
-    left:0;
-    width:100%;
-    height:12px;
-    background:linear-gradient(90deg, rgba(0,0,0,0.06), rgba(255,255,255,0.04));
-    border-radius:8px;
-    transform:translateY(-50%);
-  }
-
-  /* lid element */
   .lid{
-    position:absolute;
-    top:-12px;
-    left:50%;
-    transform:translateX(-50%) rotateX(0deg);
-    width:110px;
-    height:36px;
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-    z-index:5;
-    transition: transform 900ms cubic-bezier(.2,.8,.2,1);
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06));
+    position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotateX(0deg); width:110px; height:36px;
+    border-top-left-radius:10px; border-top-right-radius:10px; z-index:5; transition: transform 1100ms cubic-bezier(.22,.8,.2,1);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06)); box-shadow:0 8px 20px rgba(0,0,0,0.35);
   }
+  .bow{ position:absolute; top:-4px; left:50%; transform:translateX(-50%); width:36px;height:18px; z-index:6; display:flex; align-items:center; justify-content:center; }
+  .bow::before, .bow::after{ content:""; width:14px;height:14px;border-radius:50%; background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.06)); display:inline-block; }
 
-  /* bow on lid */
-  .bow{
-    position:absolute;
-    top:-4px;
-    left:50%;
-    transform:translateX(-50%);
-    width:36px;height:18px;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:6;
-  }
-  .bow::before, .bow::after{
-    content:"";
-    width:14px;height:14px;border-radius:50%;
-    background:linear-gradient(180deg, rgba(255,255,255,0.15), rgba(0,0,0,0.08));
-    display:inline-block;
-    transform-origin:center;
-  }
+  .count-badge{ position:absolute; right:-12px; top:-10px; background:rgba(0,0,0,0.45); padding:6px 8px; border-radius:999px; font-size:12px; color:#fff; opacity:0.95; box-shadow:0 6px 18px rgba(0,0,0,0.45); }
 
-  /* click counter badge */
-  .count-badge{
-    position:absolute;
-    right:-12px;
-    top:-10px;
-    background:rgba(0,0,0,0.45);
-    padding:6px 8px;
-    border-radius:999px;
-    font-size:12px;
-    color:#fff;
-    opacity:0.9;
-    box-shadow:0 6px 18px rgba(0,0,0,0.45);
-  }
-
-  /* active bounce + glow */
   @keyframes bounceUpDown {
-    0%{ transform: translateY(0) translateZ(0) rotateX(0deg);}
-    30%{ transform: translateY(-14px) translateZ(0) rotateX(1deg) }
-    60%{ transform: translateY(0) translateZ(0) rotateX(-1deg) }
-    100%{ transform: translateY(0) translateZ(0) rotateX(0deg);}
+    0%{ transform: translateY(0) rotateX(0deg); }
+    30%{ transform: translateY(-14px) rotateX(1deg); }
+    60%{ transform: translateY(0) rotateX(-1deg); }
+    100%{ transform: translateY(0) rotateX(0deg); }
   }
+  .active { animation: bounceUpDown 800ms ease-in-out infinite; box-shadow: 0 18px 46px rgba(0,0,0,0.55), 0 0 34px rgba(255,215,120,0.08); z-index:4; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.6)); }
+  .active-glow{ box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 30px rgba(255,255,180,0.12), 0 0 18px rgba(30,200,120,0.06); outline:2px solid rgba(255,255,255,0.03); }
+  .dim{ opacity:0.66; transform: translateY(var(--depressed,0px)) scale(.98); }
 
-  .active {
-    animation: bounceUpDown 800ms ease-in-out infinite;
-    box-shadow: 0 18px 46px rgba(0,0,0,0.55), 0 0 34px rgba(255,215,120,0.08);
-    transform-origin: 50% 80%;
-    z-index:4;
-    filter: drop-shadow(0 12px 18px rgba(0,0,0,0.6));
-  }
-
-  .active-glow{
-    box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 30px rgba(255,255,180,0.12), 0 0 18px rgba(30,200,120,0.06);
-    outline: 2px solid rgba(255,255,255,0.03);
-  }
-
-  /* dim when not active */
-  .dim{ opacity:0.66; transform: translateY(var(--depressed,0px)) scale(0.98);}
-
-  /* opened state */
-  .opened{
-    transform: scale(1.04) translateY(-8px) !important;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 60px rgba(255,215,120,0.06);
-  }
-
-  /* message panel (inside/out of box) */
-  .message {
-    position:absolute;
-    top:110%;
-    left:50%;
-    transform:translateX(-50%) translateY(10px);
-    max-width:220px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    color:#fff;
-    border-radius:10px;
-    padding:12px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-    opacity:0;
-    transition: all 600ms cubic-bezier(.2,.8,.2,1);
-    text-align:center;
-    z-index:9;
-    font-size:13px;
-  }
+  .opened{ transform: scale(1.04) translateY(-8px) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 60px rgba(255,215,120,0.06); }
+  .message { position:absolute; top:110%; left:50%; transform:translateX(-50%) translateY(10px); max-width:240px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); color:#fff; border-radius:10px; padding:12px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); opacity:0; transition: all 600ms cubic-bezier(.2,.8,.2,1); text-align:center; z-index:9; font-size:13px; }
   .show-message{ opacity:1; transform: translateX(-50%) translateY(0); }
 
-  /* CTA */
-  .cta-wrap{
-    margin-top:36px;
-    display:flex;
-    gap:12px;
-    justify-content:center;
-    align-items:center;
-  }
+  .cta-wrap{ margin-top:28px; display:flex; justify-content:center; gap:12px; }
+  .btn{ border:0; outline:0; background:linear-gradient(90deg,#ff6b6b,#ffb74d); padding:10px 16px; border-radius:999px; color:#05060b; font-weight:600; cursor:pointer; box-shadow:0 10px 28px rgba(0,0,0,0.45); transition: transform 180ms ease, box-shadow 180ms; }
+  .btn:hover{ transform:translateY(-4px); box-shadow:0 18px 34px rgba(0,0,0,0.55); }
 
-  .btn{
-    border:0;
-    outline:0;
-    background:linear-gradient(90deg,#ff6b6b,#ffb74d);
-    padding:10px 16px;
-    border-radius:999px;
-    color:#05060b;
-    font-weight:600;
-    cursor:pointer;
-    box-shadow:0 10px 28px rgba(0,0,0,0.45);
-    transition: transform 180ms ease, box-shadow 180ms;
-  }
-  .btn:hover{ transform:translateY(-4px); box-shadow:0 18px 34px rgba(0,0,0,0.55);}
-
-  /* create modal */
-  .modal-backdrop{
-    position:fixed;inset:0;
-    background: rgba(4,8,20,0.6);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:40;
-  }
-  .modal{
-    width: min(540px, calc(100% - 32px));
-    background: linear-gradient(180deg,#071028,#09142a);
-    border-radius:12px;
-    padding:18px;
-    box-shadow: 0 18px 60px rgba(0,0,0,0.7);
-    border:1px solid rgba(255,255,255,0.03);
-  }
+  /* Modal */
+  .modal-backdrop{ position:fixed; inset:0; background: rgba(4,8,20,0.6); display:none; align-items:center; justify-content:center; z-index:40; }
+  .modal{ width:min(640px,calc(100% - 32px)); background: linear-gradient(180deg,#071028,#09142a); border-radius:12px; padding:18px; box-shadow: 0 18px 60px rgba(0,0,0,0.7); border:1px solid rgba(255,255,255,0.03); color:#e6eefc; }
   .modal h3{ margin:0 0 8px 0; }
-  .field{ margin:10px 0; display:flex; flex-direction:column; gap:8px; }
-  .field label{ font-size:13px; color:#e6eefc; opacity:0.9; }
-  .field input, .field select, .field textarea{
-    background: rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.04);
-    padding:10px 12px;
-    color:#fff;
-    border-radius:8px;
-    outline:none;
-  }
-  .field textarea{ min-height:80px; resize:vertical; }
+  .field{ margin:8px 0; display:flex; flex-direction:column; gap:8px; }
+  .field input, .field textarea{ background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04); padding:10px 12px; color:#fff; border-radius:8px; outline:none; }
+  .field textarea{ min-height:60px; resize:vertical; }
 
-  .link-output{
-    margin-top:12px;
-    display:flex;
-    gap:8px;
-    align-items:center;
-  }
-  .link-output input{
-    flex:1;
-    background: rgba(255,255,255,0.02);
-    border:1px dashed rgba(255,255,255,0.04);
-    color:#fff;
-    padding:8px 10px;border-radius:8px;
-  }
+  .link-output{ margin-top:12px; display:flex; gap:8px; align-items:center; }
+  .link-output input{ flex:1; background: rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.04); color:#fff; padding:8px 10px;border-radius:8px; }
 
-  footer.site-footer{
-    width:100%;
-    text-align:center;
-    padding:14px 10px;
-    color:#d8e6ff;
-    opacity:0.7;
-    margin-top:auto;
-    font-size:13px;
-  }
-
-  /* small screens */
-  @media (max-width:560px){
-    .box-wrap{ width:86px;height:120px; }
-    .box{ width:90px;height:90px; border-radius:10px; }
-    .lid{ width:96px;height:30px; top:-10px; }
-    .message{ max-width:180px; font-size:13px; }
-  }
+  footer.site-footer{ width:100%; text-align:center; padding:14px 10px; color:#d8e6ff; opacity:0.8; margin-top:auto; font-size:13px; }
+  @media (max-width:560px){ .box-wrap{ width:90px;height:120px; } .box{ width:90px;height:90px; } .lid{ width:96px;height:30px; top:-10px; } .message{ max-width:180px; font-size:13px; } }
 </style>
 </head>
 <body>
@@ -337,15 +97,12 @@
   <header class="hero" role="banner">
     <h1 id="greetings">Merry Christmas!</h1>
     <p class="lead" id="subtitle">As your long time friend, choose one gift you'd like from me</p>
-    <p class="small">Click a box. When one box is clicked 5 times it will open — surprise inside!</p>
   </header>
 
-  <section aria-label="Gift boxes" class="boxes" id="boxes">
-    <!-- boxes will be generated by JS -->
-  </section>
+  <section aria-label="Gift boxes" class="boxes" id="boxes"></section>
 
-  <div class="cta-wrap" id="ctaArea" style="display:none">
-    <button class="btn" id="createBtn">Create for a Friend 🎁</button>
+  <div class="cta-wrap">
+    <button class="btn" id="createBtn">Create to a Friend</button>
   </div>
 </main>
 
@@ -360,19 +117,12 @@
     </div>
 
     <div class="field">
-      <label for="selectBox">Which box will contain the surprise?</label>
-      <select id="selectBox">
-        <option value="1">Box 1</option>
-        <option value="2">Box 2</option>
-        <option value="3">Box 3</option>
-        <option value="4">Box 4</option>
-        <option value="5">Box 5</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="boxMessage">Enter the message that will appear when that box opens</label>
-      <textarea id="boxMessage" placeholder="Type the surprise message..."></textarea>
+      <label>Enter messages for each box</label>
+      <input id="m1" placeholder="Message for Box 1" />
+      <input id="m2" placeholder="Message for Box 2" />
+      <input id="m3" placeholder="Message for Box 3" />
+      <input id="m4" placeholder="Message for Box 4" />
+      <input id="m5" placeholder="Message for Box 5" />
     </div>
 
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
@@ -391,248 +141,209 @@
 <footer class="site-footer">Powered by Rodgers ©2025</footer>
 
 <script>
-/* ------------- Configuration & Defaults ------------- */
-const DEFAULT_MESSAGE = "Mkipika chapi kwenu 25th usinisahau bwana 😂🤭";
+/* ---------- Config & Defaults ---------- */
 const BOX_COUNT = 5;
+const DEFAULT_MESSAGES = [
+  "Mkipika chapo kwenu 25th usinisahau bwana 😂🤭",
+  "Mkipika chapo kwenu 25th usinisahau bwana 😂🤭",
+  "Mkipika chapo kwenu 25th usinisahau bwana 😂🤭",
+  "Mkipika chapo kwenu 25th usinisahau bwana 😂🤭",
+  "Mkipika chapo kwenu 25th usinisahau bwana 😂🤭"
+];
 
-/* read URL params for name, box, message */
 function getParams(){
   const u = new URL(window.location.href);
   const p = {};
   p.name = u.searchParams.get('name') ? decodeURIComponent(u.searchParams.get('name')) : null;
-  p.box = u.searchParams.get('box') ? Number(u.searchParams.get('box')) : null;
-  p.message = u.searchParams.get('message') ? decodeURIComponent(u.searchParams.get('message')) : null;
+  p.messages = [];
+  for(let i=1;i<=BOX_COUNT;i++){
+    const v = u.searchParams.get('m'+i);
+    p.messages.push(v ? decodeURIComponent(v) : null);
+  }
   return p;
 }
 const params = getParams();
-const receiverName = params.name || "Friend";
-const targetBoxFromLink = (params.box && params.box >=1 && params.box <=BOX_COUNT) ? params.box : null;
-const customMessageFromLink = params.message ? params.message : null;
+const receiverName = params.name || null;
+const messagesFromLink = params.messages.map((m,i)=> m || DEFAULT_MESSAGES[i]);
 
-/* ------------- UI Elements ------------- */
+/* ---------- Elements ---------- */
 const greetingsEl = document.getElementById('greetings');
+const subtitleEl = document.getElementById('subtitle');
 const boxesContainer = document.getElementById('boxes');
-const ctaArea = document.getElementById('ctaArea');
 const createBtn = document.getElementById('createBtn');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalClose = document.getElementById('modalClose');
 const generateLinkBtn = document.getElementById('generateLinkBtn');
 const friendNameInput = document.getElementById('friendName');
-const selectBoxInput = document.getElementById('selectBox');
-const boxMessageInput = document.getElementById('boxMessage');
+const mInputs = [document.getElementById('m1'),document.getElementById('m2'),document.getElementById('m3'),document.getElementById('m4'),document.getElementById('m5')];
 const linkOutput = document.getElementById('linkOutput');
 const generatedLinkInput = document.getElementById('generatedLink');
 const copyLinkBtn = document.getElementById('copyLinkBtn');
-const subtitleEl = document.getElementById('subtitle');
+const canvas = document.getElementById('snow');
+const ctx = canvas.getContext('2d');
 
-/* ------------- State ------------- */
-let boxes = []; // stores DOM & state for each box
-let activeIndex = null; // 0-based index of currently active (bouncing) box
+/* ---------- State ---------- */
+let boxes = [];
+let activeIndex = null;
 let clickCounts = new Array(BOX_COUNT).fill(0);
-let depressedOffsets = new Array(BOX_COUNT).fill(0); // px moved down each time deactivated
+let depressedOffsets = new Array(BOX_COUNT).fill(0);
 let opened = false;
-let targetBox = targetBoxFromLink !== null ? (targetBoxFromLink - 1) : Math.floor(Math.random()*BOX_COUNT); // 0-based
-let targetMessage = customMessageFromLink || DEFAULT_MESSAGE;
+let targetMessage = messagesFromLink.slice(); // per-box messages
 
-/* ------------- Initialize greeting & subtitle ------------- */
-greetingsEl.textContent = `Merry Christmas, ${receiverName}!`;
-subtitleEl.textContent = "As your long time friend, choose one gift you'd like from me";
+/* ---------- Greeting ---------- */
+if(receiverName){
+  greetingsEl.textContent = `Merry Christmas, ${receiverName}!`;
+} else {
+  greetingsEl.textContent = 'Merry Christmas!';
+}
 
-/* ------------- Build boxes DOM ------------- */
+/* ---------- Build Boxes ---------- */
 function buildBoxes(){
   for(let i=0;i<BOX_COUNT;i++){
     const wrap = document.createElement('div');
     wrap.className = 'box-wrap';
     wrap.style.setProperty('--depressed','0px');
 
-    // base box
     const box = document.createElement('div');
     box.className = `box box${i+1}`;
     box.setAttribute('data-index', i);
 
-    // lid element
-    const lid = document.createElement('div');
-    lid.className = 'lid';
+    const lid = document.createElement('div'); lid.className = 'lid';
+    const bow = document.createElement('div'); bow.className = 'bow';
+    const badge = document.createElement('div'); badge.className = 'count-badge'; badge.textContent = '0';
+    const msg = document.createElement('div'); msg.className = 'message';
+    msg.textContent = '';
 
-    // bow
-    const bow = document.createElement('div');
-    bow.className = 'bow';
-
-    // message (hidden)
-    const msg = document.createElement('div');
-    msg.className = 'message';
-    msg.textContent = ''; // will set when opened
-
-    // click counter badge
-    const badge = document.createElement('div');
-    badge.className = 'count-badge';
-    badge.textContent = '0';
-
-    // assemble
     box.appendChild(lid);
     box.appendChild(bow);
     box.appendChild(badge);
     box.appendChild(msg);
     wrap.appendChild(box);
 
-    // event
     box.addEventListener('click', ()=> onBoxClick(i));
-
     boxesContainer.appendChild(wrap);
-
-    // push to state
-    boxes.push({wrap, box, lid, msg, badge});
+    boxes.push({wrap, box, lid, bow, badge, msg});
   }
 }
 buildBoxes();
 
-/* ------------- Box click logic ------------- */
+/* ---------- Box click logic (secret: no hint in UI) ---------- */
 function onBoxClick(i){
-  if(opened) return; // nothing after opened
-  // if same as active
+  if(opened) return;
+
+  // if same as active, increment count
   if(activeIndex === i){
-    // increment click count for this box
     clickCounts[i] = (clickCounts[i] || 0) + 1;
     boxes[i].badge.textContent = clickCounts[i];
-    // small pulse
+    // small pulse feedback
     boxes[i].box.style.transform = 'scale(1.02)';
     setTimeout(()=> boxes[i].box.style.transform = '', 120);
 
-    // if reached 5 and this is target -> open
-    if(clickCounts[i] >= 5 && i === targetBox){
-      openBox(i);
-    } else if(clickCounts[i] >= 5 && i !== targetBox) {
-      // user clicked same box 5 times but not the chosen target: still open per original rule?
-      // Per design: "the one he will click 5 times will open" — allow opening any box after 5 clicks
+    if(clickCounts[i] >= 5){
       openBox(i);
     }
     return;
   }
 
-  // switching active box
+  // else switching active box
   const prev = activeIndex;
   activeIndex = i;
 
-  // deactivate previous
+  // deactivate prev
   if(prev !== null && prev !== undefined){
-    // stop bouncing and add depressed offset incrementally
     boxes[prev].box.classList.remove('active','active-glow');
     boxes[prev].box.classList.add('dim');
-    depressedOffsets[prev] += 18; // move down 18px more each time
-    boxes[prev].wrap.style.setProperty('--depressed', depressedOffsets[prev]+'px');
+    depressedOffsets[prev] += 18;
+    boxes[prev].wrap.style.setProperty('--depressed', depressedOffsets[prev] + 'px');
     boxes[prev].wrap.style.transform = `translateY(${depressedOffsets[prev]}px)`;
   }
 
   // activate new
   boxes[i].box.classList.remove('dim');
   boxes[i].box.classList.add('active','active-glow');
-
-  // increment single click count for selecting (but only actual increments when clicking same box)
-  // show badge immediatelly as 1 (if freshly selected but not counted)
-  // We don't change clickCounts on selection; only on repeated clicks on same active box they'll increase.
+  // ensure its badge shows current count (might be 0)
   boxes[i].badge.textContent = clickCounts[i] || 0;
 }
 
-/* ------------- Open box animation & result ------------- */
+/* ---------- Open box (treasure chest style slow opening) ---------- */
 function openBox(i){
   opened = true;
-  // ensure the opened box is visually opened
-  const {box,lid,msg,badge,wrap} = boxes[i];
+  const {box,lid,msg,badge} = boxes[i];
   box.classList.add('opened');
   box.classList.remove('active','active-glow','dim');
-  // slowly rotate lid back (treasure chest style) - rotateX negative to open upward
+
+  // rotate lid to open slowly
   lid.style.transform = 'translateX(-50%) rotateX(-62deg)';
   lid.style.transition = 'transform 1100ms cubic-bezier(.22,.8,.2,1)';
 
-  // show message text inside/outside
-  const text = (i === targetBox && customMessageFromLink) ? customMessageFromLink : targetMessage;
+  // show its message (from link or custom)
+  const text = targetMessage[i] || DEFAULT_MESSAGES[i];
   msg.textContent = text;
   setTimeout(()=> msg.classList.add('show-message'), 420);
 
-  // reveal CTA and create button
-  ctaArea.style.display = 'flex';
-
-  // start medium snow effect
+  // reveal snow
   startSnow();
 
-  // tiny celebratory glow
-  box.animate([
-    { boxShadow: '0 20px 40px rgba(0,0,0,0.6), 0 0 0 rgba(255,255,255,0)' },
-    { boxShadow: '0 40px 100px rgba(255,215,120,0.12), 0 0 60px rgba(255,215,120,0.08)' },
-    { boxShadow: '0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(255,215,120,0.06)' }
-  ], { duration: 1300, easing: 'ease-out' });
-
-  // increment badge to final count if not yet
+  // show copy/create area remains available (user can create their own)
+  // ensure badge final number
   badge.textContent = clickCounts[i] >= 5 ? clickCounts[i] : 5;
 }
 
-/* ------------- Modal & Link generation ------------- */
+/* ---------- Modal & Link generation ---------- */
 createBtn.addEventListener('click', ()=>{
   friendNameInput.value = '';
-  selectBoxInput.value = '1';
-  boxMessageInput.value = '';
+  for(let j=0;j<BOX_COUNT;j++) mInputs[j].value = '';
   linkOutput.style.display = 'none';
   generatedLinkInput.value = '';
   modalBackdrop.style.display = 'flex';
   modalBackdrop.setAttribute('aria-hidden','false');
 });
 modalClose.addEventListener('click', closeModal);
-
 function closeModal(){
   modalBackdrop.style.display = 'none';
   modalBackdrop.setAttribute('aria-hidden','true');
 }
 
 generateLinkBtn.addEventListener('click', ()=>{
-  const name = friendNameInput.value.trim() || 'Friend';
-  const box = Number(selectBoxInput.value) || 1;
-  const message = (boxMessageInput.value && boxMessageInput.value.trim()) || DEFAULT_MESSAGE;
-
-  // construct link
+  const name = friendNameInput.value.trim() || '';
+  const mvals = mInputs.map(i=> i.value.trim() || '');
+  // require at least one message? we'll allow defaults for empty but include them
   const base = window.location.origin + window.location.pathname;
-  const url = `${base}?name=${encodeURIComponent(name)}&box=${encodeURIComponent(box)}&message=${encodeURIComponent(message)}`;
+  const params = new URLSearchParams();
+  if(name) params.set('name', name);
+  mvals.forEach((mv, idx) => {
+    if(mv) params.set('m'+(idx+1), mv);
+  });
+  const url = `${base}?${params.toString()}`;
   generatedLinkInput.value = url;
   linkOutput.style.display = 'flex';
 });
 
-// copy link
 copyLinkBtn.addEventListener('click', async ()=>{
   const val = generatedLinkInput.value;
   if(!val) return;
-  try {
+  try{
     await navigator.clipboard.writeText(val);
     copyLinkBtn.textContent = 'Copied ✅';
     setTimeout(()=> copyLinkBtn.textContent = 'Copy Link', 1400);
-  } catch(e){
-    alert('Copy failed — select and copy manually: ' + val);
+  }catch(e){
+    alert('Copy failed — manually select and copy the link.');
   }
 });
 
-/* allow closing modal by clicking backdrop */
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) closeModal();
 });
 
-/* ------------- Snow animation (starts when box opens) ------------- */
-const canvas = document.getElementById('snow');
-const ctx = canvas.getContext('2d');
-let snowParticles = [];
-let snowRunning = false;
-
-function resizeCanvas(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+/* ---------- Snow animation (medium) ---------- */
+let snowParticles = [], snowRunning = false;
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
 
 function startSnow(){
   if(snowRunning) return;
   snowRunning = true;
-  // make snow visible
   canvas.style.opacity = '1';
-
-  // medium snow: about 160 particles
   const count = 160;
   snowParticles = [];
   for(let i=0;i<count;i++){
@@ -642,23 +353,38 @@ function startSnow(){
       r: Math.random()*3 + 1.2,
       vx: (Math.random()-0.5)*0.4,
       vy: Math.random()*1.2 + 0.6,
-      sway: Math.random()*1.5,
       phase: Math.random()*Math.PI*2
     });
   }
   requestAnimationFrame(snowFrame);
 }
-
 function snowFrame(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = 'rgba(255,255,255,0.92)';
   ctx.beginPath();
   for(const p of snowParticles){
-    ctx.moveTo(p.x, p.y);
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    // update
+    ctx.moveTo(p.x,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
     p.phase += 0.01 + Math.random()*0.01;
-    p.x += p.vx + Math.sin(p.phase) * 0.3;
+    p.x += p.vx + Math.sin(p.phase)*0.3;
     p.y += p.vy;
-    if(p.y > canvas.height + 20){
-      p.
+    if(p.y > canvas.height + 20){ p.y = -10 - Math.random()*40; p.x = Math.random()*canvas.width; }
+    if(p.x < -20) p.x = canvas.width + 20;
+    if(p.x > canvas.width + 20) p.x = -20;
+  }
+  ctx.fill();
+  if(snowRunning) requestAnimationFrame(snowFrame);
+}
+
+/* ---------- Initial small hint: highlight a box (but no text hint) ---------- */
+(function initialSelect(){
+  const i = Math.floor(Math.random()*BOX_COUNT);
+  setTimeout(()=> { if(!opened) onBoxClick(i); }, 600);
+})();
+
+/* Prevent text selection to keep UI clean */
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+</script>
+</body>
+</html>
