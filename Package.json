@@ -1,11 +1,8 @@
 {
-  "name": "christmas-surprise",
+  "name": "christmas-gift",
   "version": "1.0.0",
-  "private": true,
-  "description": "Merry Christmas surprise game by Rodgers",
+  "description": "Simple static Christmas surprise site",
   "scripts": {
-    "start": "serve ."
-  },
-  "author": "Rodgers",
-  "license": "MIT"
+    "start": "echo 'No build needed'"
+  }
 }
